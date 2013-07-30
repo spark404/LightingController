@@ -1,5 +1,5 @@
 //
-//  main.m
+//  MidiInterface.h
 //  LightingController
 //
 // Copyright 2013 Hugo Trippaers
@@ -16,9 +16,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <CoreMIDI/CoreMIDI.h>
 
-int main(int argc, char *argv[])
-{
-    return NSApplicationMain(argc, (const char **)argv);
-}
+MIDIClientRef midiClient;
+MIDIPortRef midiPort;
+MIDIEndpointRef destinationPort;
+
+@interface MidiInterface : NSObject
+
+-(void) sendMessage:(int)channel velocity:(int)velocity;
+
+
+@end

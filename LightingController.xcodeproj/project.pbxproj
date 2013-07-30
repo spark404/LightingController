@@ -10,13 +10,15 @@
 		9A50048717A722460051B03D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A50048617A722460051B03D /* Cocoa.framework */; };
 		9A50049117A722460051B03D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A50048F17A722460051B03D /* InfoPlist.strings */; };
 		9A50049317A722460051B03D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A50049217A722460051B03D /* main.m */; };
-		9A50049717A722460051B03D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9A50049517A722460051B03D /* Credits.rtf */; };
 		9A50049A17A722460051B03D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A50049917A722460051B03D /* AppDelegate.m */; };
 		9A50049D17A722460051B03D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A50049B17A722460051B03D /* MainMenu.xib */; };
-		9A5004A517A722460051B03D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5004A417A722460051B03D /* SenTestingKit.framework */; };
 		9A5004A617A722460051B03D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A50048617A722460051B03D /* Cocoa.framework */; };
 		9A5004AE17A722460051B03D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A5004AC17A722460051B03D /* InfoPlist.strings */; };
 		9A5004B117A722460051B03D /* LightingControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5004B017A722460051B03D /* LightingControllerTests.m */; };
+		9A5004BC17A7A8910051B03D /* MidiInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5004BB17A7A8910051B03D /* MidiInterface.m */; };
+		9A5004C417A7B1840051B03D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5004A417A722460051B03D /* SenTestingKit.framework */; };
+		9A5004C517A7B1920051B03D /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5004C217A7B14E0051B03D /* CoreMIDI.framework */; };
+		9A5004C617A7B2B40051B03D /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5004C217A7B14E0051B03D /* CoreMIDI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +41,6 @@
 		9A50049017A722460051B03D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9A50049217A722460051B03D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9A50049417A722460051B03D /* LightingController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LightingController-Prefix.pch"; sourceTree = "<group>"; };
-		9A50049617A722460051B03D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		9A50049817A722460051B03D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9A50049917A722460051B03D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9A50049C17A722460051B03D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -49,6 +50,9 @@
 		9A5004AD17A722460051B03D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9A5004AF17A722460051B03D /* LightingControllerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightingControllerTests.h; sourceTree = "<group>"; };
 		9A5004B017A722460051B03D /* LightingControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightingControllerTests.m; sourceTree = "<group>"; };
+		9A5004BA17A7A8910051B03D /* MidiInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiInterface.h; sourceTree = "<group>"; };
+		9A5004BB17A7A8910051B03D /* MidiInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiInterface.m; sourceTree = "<group>"; };
+		9A5004C217A7B14E0051B03D /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5004C617A7B2B40051B03D /* CoreMIDI.framework in Frameworks */,
 				9A50048717A722460051B03D /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,7 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A5004A517A722460051B03D /* SenTestingKit.framework in Frameworks */,
+				9A5004C517A7B1920051B03D /* CoreMIDI.framework in Frameworks */,
+				9A5004C417A7B1840051B03D /* SenTestingKit.framework in Frameworks */,
 				9A5004A617A722460051B03D /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +100,7 @@
 		9A50048517A722460051B03D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A5004C217A7B14E0051B03D /* CoreMIDI.framework */,
 				9A50048617A722460051B03D /* Cocoa.framework */,
 				9A5004A417A722460051B03D /* SenTestingKit.framework */,
 				9A50048817A722460051B03D /* Other Frameworks */,
@@ -118,6 +125,8 @@
 				9A50049917A722460051B03D /* AppDelegate.m */,
 				9A50049B17A722460051B03D /* MainMenu.xib */,
 				9A50048D17A722460051B03D /* Supporting Files */,
+				9A5004BA17A7A8910051B03D /* MidiInterface.h */,
+				9A5004BB17A7A8910051B03D /* MidiInterface.m */,
 			);
 			path = LightingController;
 			sourceTree = "<group>";
@@ -129,7 +138,6 @@
 				9A50048F17A722460051B03D /* InfoPlist.strings */,
 				9A50049217A722460051B03D /* main.m */,
 				9A50049417A722460051B03D /* LightingController-Prefix.pch */,
-				9A50049517A722460051B03D /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -225,7 +233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A50049117A722460051B03D /* InfoPlist.strings in Resources */,
-				9A50049717A722460051B03D /* Credits.rtf in Resources */,
 				9A50049D17A722460051B03D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,6 +270,7 @@
 			files = (
 				9A50049317A722460051B03D /* main.m in Sources */,
 				9A50049A17A722460051B03D /* AppDelegate.m in Sources */,
+				9A5004BC17A7A8910051B03D /* MidiInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,14 +299,6 @@
 				9A50049017A722460051B03D /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		9A50049517A722460051B03D /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9A50049617A722460051B03D /* en */,
-			);
-			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 		9A50049B17A722460051B03D /* MainMenu.xib */ = {
