@@ -23,9 +23,23 @@ MIDIClientRef midiClient;
 MIDIPortRef midiPort;
 MIDIEndpointRef destinationPort;
 
+@protocol MidiInterfaceSetupChangeNotification <NSObject>
+
+-(void) midiSetupChanged;
+
+@end
+
 @interface MidiInterface : NSObject
 
+@property (nonatomic,strong) id <MidiInterfaceSetupChangeNotification> delegate;
+
+-(NSArray *) getDestinations;
+
+-(void) setDestination:(NSString*)destinationName;
+
 -(void) sendMessage:(int)channel velocity:(int)velocity;
+
+-(void) sendOtherMessage:(int)action intensity:(int)intenstiy;
 
 
 @end

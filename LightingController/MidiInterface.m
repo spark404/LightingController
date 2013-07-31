@@ -20,6 +20,8 @@
 
 @implementation MidiInterface
 
+@synthesize delegate;
+
 - (id)init
 {
     self = [super init];
@@ -30,7 +32,7 @@
          */
         status = MIDIClientCreate(CFSTR("LightingController"),
                                            MyMIDINotifyProc,
-                                           CFBridgingRetain(self),
+                                           (__bridge void *)(self),
                                            &midiClient);
         
         if (status != 0) {
@@ -99,6 +101,25 @@
     }
 }
 
+-(void)sendOtherMessage:(int)action intensity:(int)intensity
+{
+    OSStatus status;
+    Byte buffer[1024];
+    Byte midiDataToSend[] = {0xA0, action, intensity};
+    
+    MIDIPacketList *packetList = (MIDIPacketList *)buffer;
+    MIDIPacket     *curpacket  = MIDIPacketListInit(packetList);
+    curpacket = MIDIPacketListAdd(packetList, sizeof(buffer), curpacket, 0, 3, midiDataToSend);
+    
+    status = MIDISend(midiPort, destinationPort, packetList);
+    if (status != 0) {
+        NSLog(@"Failed to send a midi message to device");
+    } else {
+        NSLog(@"sendMessage %x, %x, %x to %@", midiDataToSend[0], midiDataToSend[1], midiDataToSend[2],
+              [self getName:destinationPort]);
+    }
+}
+
 /** Returns the name of a given MIDIObjectRef as an NSString
  */
 -(NSString *) getName: (MIDIObjectRef) object {
@@ -107,18 +128,99 @@
             return nil;
         return (NSString *)CFBridgingRelease(name);
 }
+
+/** List the output devices
+ */
+-(NSArray *) getDestinations {
+    ItemCount destCount = MIDIGetNumberOfDestinations();
+    NSMutableArray *destinationsArray = [NSMutableArray array];
+    for (ItemCount i = 0 ; i < destCount ; ++i) {
+        
+        MIDIEndpointRef dest = MIDIGetDestination(i);
+        if (dest != 0) {
+            [destinationsArray addObject:[self getName:dest]];
+        }
+    }
     
+    return destinationsArray;
+}
+
+-(void) setDestination:(NSString*)destinationName {
+    destinationPort = 0; // RESET
+    ItemCount destCount = MIDIGetNumberOfDestinations();
+    for (ItemCount i = 0 ; i < destCount ; ++i) {
+        
+        MIDIEndpointRef dest = MIDIGetDestination(i);
+        if (dest != 0 && ([[self getName:dest] compare:destinationName] == NSOrderedSame)) {
+                destinationPort = dest;
+        }
+    }
+    
+    if (destinationPort == 0) {
+        // Not found, raise an exception
+        NSException* midiInterfaceException = [NSException
+                                               exceptionWithName:@"MidiInterfaceException" reason:@"Could not find the requested destination" userInfo:nil];
+        @throw midiInterfaceException;
+    }
+    
+    NSLog(@"Destination set to %@ %@", [self getName:destinationPort], destinationName);
+}
+
 /** Workaround to pass a notification to the object
  * create a C style call and send it to a Objective-C method
  */
 static void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 {
-    [(id) CFBridgingRelease(refCon) MIDINotify: message];
+    [(__bridge id) refCon MIDINotify: message];
 }
 
 -(void) MIDINotify: (const MIDINotification*) message
 {
+    const MIDIObjectAddRemoveNotification *addRemoveMessage;
+    const MIDIObjectPropertyChangeNotification *propertyChangeMessage;
+    
     NSLog(@"Received a notification of type %d", message->messageID);
+    switch (message->messageID) {
+        case kMIDIMsgSetupChanged:
+            NSLog(@"Notification: MIDI Setup Changed");
+            [self.delegate midiSetupChanged];
+            break;
+            
+        case kMIDIMsgThruConnectionsChanged:
+            NSLog(@"Notification: MIDI Thru Connections Changed");
+            break;
+            
+        case kMIDIMsgObjectAdded:
+            addRemoveMessage = (MIDIObjectAddRemoveNotification *) message;
+            if (addRemoveMessage->childType == kMIDIObjectType_Destination) {
+                NSLog(@"Destination device %@ added", [self getName:addRemoveMessage->child]);
+            }
+            break;
+            
+        case kMIDIMsgObjectRemoved:
+            addRemoveMessage = (const MIDIObjectAddRemoveNotification *)message;
+            if (addRemoveMessage->childType == kMIDIObjectType_Destination) {
+                NSLog(@"Destination device %@ removed", [self getName:addRemoveMessage->child]);
+            }
+            break;
+            
+        case kMIDIMsgPropertyChanged:
+            propertyChangeMessage = (const MIDIObjectPropertyChangeNotification *)message;
+            NSLog(@"Property %@ changed on device %@", propertyChangeMessage->propertyName, [self getName:propertyChangeMessage->object]);
+            break;
+            
+        case kMIDIMsgSerialPortOwnerChanged:
+            NSLog(@"Notification: MIDI Serial Port Owner Changed");
+            break;
+            
+        case kMIDIMsgIOError:
+            NSLog(@"Notification: MIDI IO Error");
+            break;
+                        
+        default:
+            NSLog(@"Notification: Unknown notification (id %d)", message->messageID);
+            break;
+    }
 }
 
 
