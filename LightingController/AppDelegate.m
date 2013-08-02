@@ -152,6 +152,53 @@
     [self redrawActionButtonState];
 }
 
+- (IBAction)startGameSequence:(id)sender {
+    // Balk 263 BPM / 85
+    // Field 51 BPM / 37
+    // Stop the world
+    [midiInterface sendOtherMessage:20 intensity:0];
+    [midiInterface sendOtherMessage:21 intensity:0];
+    [midiInterface sendOtherMessage:22 intensity:0];
+    
+    // Start the field
+    [midiInterface sendOtherMessage:20 intensity:127];
+    
+    // Shot one
+    sleep(1);
+    [midiInterface sendOtherMessage:21 intensity:127];
+    sleep(20);
+    [midiInterface sendOtherMessage:21 intensity:0];
+
+    // return home
+
+    // shot two
+    sleep(26);
+    [midiInterface sendOtherMessage:21 intensity:127];
+    sleep(20);
+    [midiInterface sendOtherMessage:21 intensity:0];
+
+    // return home
+
+    // shot three
+    sleep(20);
+    [midiInterface sendOtherMessage:22 intensity:127];
+    sleep(4);
+    [midiInterface sendOtherMessage:20 intensity:0];
+    [midiInterface sendOtherMessage:22 intensity:0];
+    
+    // return home
+    
+    // loop
+    
+}
+
+- (IBAction)stopGameSequence:(id)sender {
+    // Stop the world
+    [midiInterface sendOtherMessage:20 intensity:0];
+    [midiInterface sendOtherMessage:21 intensity:0];
+    [midiInterface sendOtherMessage:22 intensity:0];
+}
+
 -(void) redrawActionButtonState {
     NSArray *currentButtonList = [toggleButtons objectAtIndex:currentPage];
     [self.action_button_1 setState:[[currentButtonList objectAtIndex:0] boolValue]];

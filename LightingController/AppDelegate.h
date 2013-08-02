@@ -73,4 +73,7 @@ int currentPage;
 - (IBAction)programmableButtonClick:(id)sender;
 - (IBAction)pageChangeButtonClick:(id)sender;
 
+- (IBAction)startGameSequence:(id)sender;
+- (IBAction)stopGameSequence:(id)sender;
+
 @end
